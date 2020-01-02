@@ -2,6 +2,9 @@
 #include <SPI.h>
 #include <mcp_can.h>
 #include <BPLib.h>
+#include <Arduino_LSM6DS3.h>
+#include <WiFiNINA.h>
+#include <ArduinoBLE.h>
 
 /*
   Projektbezogene Header
