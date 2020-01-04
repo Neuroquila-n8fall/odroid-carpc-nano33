@@ -27,6 +27,8 @@ void timeKeeper();
 void sendKey(uint8_t keycode);
 //Interaktion mit serieller Konsole
 void readConsole();
+//PWM Setup
+void setupPWM();
 
 /*------------- PIN DEFINITIONS -------------*/
 //Opto 2 - Zündung Aktiv
@@ -43,6 +45,20 @@ const int SPI_CS_PIN = 10;
 const int PIN_VU7A_BRIGHTNESS = 5;
 //Pin für Debug Switch
 const int PIN_DEBUG = 53;
+//PWM Pin #1
+const int PWM_PIN_1 = 2;
+//PWM Pin #2
+const int PWM_PIN_2 = 3;
+//Relay Pin für Lüfter OK
+const int FAN_RELAY = A6;
+//Status LED
+const int STATUS_LED = A2;
+//Aktivitäts-LED
+const int ACT_LED = A3;
+//Temperatursensor
+const int TEMP_SENSOR = A0;
+//CAN Interrupt
+const int CAN_INT = A1; //A1 = INT2
 
 /*------------- Fields / Vars -------------*/
 //Zeitstempel für Sekundentimer
@@ -137,3 +153,10 @@ const int MAX_LM_LIGHT_LEVEL = 80;
 const int MIN_DISPLAY_BRIGHTNESS = 50;
 //Maximaler Steuerwert für Displayhelligkeit
 const int MAX_DISPLAY_BRIGHTNESS = 255;
+
+
+//PWM
+//Minimaler Zyklus
+const int MIN_FAN_DUTY = 0;
+//Maximaler Zyklus
+const int MAX_FAN_DUTY = 20000;
