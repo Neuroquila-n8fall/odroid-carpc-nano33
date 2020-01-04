@@ -28,7 +28,7 @@ void setup()
 
   // Bluetooth Modul
   //Serial1 (18/19 für BT Modul benutzen)
-  Serial.println("[setup] Serial 1 (Pin TX:18,RX:19)");
+  Serial.println("[setup] Serial 1 (Pin RX0,TX1)");
   Serial1.begin(serialBaud);
   Serial.println("[setup] Setup BT Library");
   BPMod = new BPLib(Serial1);
