@@ -1,3 +1,5 @@
+*.s#*
+*.b#*
 arduino_secrets.h
 .pio
 .pio/*
