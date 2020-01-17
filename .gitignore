@@ -1,5 +1,7 @@
 *.s#*
 *.b#*
+*.pro
+*.cam
 arduino_secrets.h
 .pio
 .pio/*
