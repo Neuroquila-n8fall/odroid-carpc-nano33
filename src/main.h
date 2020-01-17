@@ -1,3 +1,4 @@
+#pragma once
 #include <Arduino.h>
 /*------------- Functions -------------*/
 //Status der Zündung abrufen und entsprechende Aktionen auslösen
@@ -10,25 +11,19 @@ void stopOdroid();
 void pauseOdroid();
 //Ein- und Ausgänge prüfen
 void checkPins();
-//CAN Nachrichten prüfen
-void checkCan();
 //Zeitstempel bauen
 void buildtimeStamp();
-//CAN Nachrichten auf der Konsole ausgeben
-void printCanMsg(int canId, unsigned char *buffer, int len);
-//CAN Output als CSV
-void printCanMsgCsv(int canId, unsigned char *buffer, int len);
 //Mausrad simulieren, je nachdem in welche Richtung der iDrive Knopf gedreht wurde.
 void scrollScreen();
-//Uhrzeit pflegen. Ist ausschließlich dazu da die Uhrzeit voran schreiten zu lassen, wenn der Canbus inaktiv ist und keine Zeit vom Auto kommt.
-//Die RTC Library kommt leider nicht in Frage da mein DUE board wohl keinen Kristall für RTC hat und daher der MCU einfriert beim initialisieren.
-void timeKeeper();
 //Taste drücken und sofort wieder freigeben
 void sendKey(uint8_t keycode);
 //Interaktion mit serieller Konsole
 void readConsole();
-//PWM Setup
-void setupPWM();
+//Lüftersteuerung
+void fanControl();
+//Display füllen
+void feedDisplay();
+
 
 /*------------- PIN DEFINITIONS -------------*/
 //Opto 2 - Zündung Aktiv
@@ -44,13 +39,13 @@ const int SPI_CS_PIN = 10;
 //Pin für Display Helligkeit
 const int PIN_VU7A_BRIGHTNESS = 5;
 //Pin für Debug Switch
-const int PIN_DEBUG = 53;
+const int PIN_DEBUG = 4;
 //PWM Pin #1
 const int PWM_PIN_1 = 2;
 //PWM Pin #2
 const int PWM_PIN_2 = 3;
-//Relay Pin für Lüfter OK
-const int FAN_RELAY = A6;
+//Pin für Steuerung des Lüfter Relais via OK
+const int PIN_FAN_RELAY = A6;
 //Status LED
 const int STATUS_LED = A2;
 //Aktivitäts-LED
@@ -58,7 +53,7 @@ const int ACT_LED = A3;
 //Temperatursensor
 const int TEMP_SENSOR = A0;
 //CAN Interrupt
-const int CAN_INT = A1; //A1 = INT2
+//const int CAN_INT = A1; //A1 = INT2
 
 /*------------- Fields / Vars -------------*/
 //Zeitstempel für Sekundentimer
@@ -121,27 +116,45 @@ const int serialBaud = 115200;
 //zuletzt errechneter Helligkeitswert für Display.
 int lastBrightness = 0;
 
-//Stunden
-int hours = 0;
-//Minuten
-int minutes = 0;
-//Sekunden
-int seconds = 0;
-//Tag
-int days = 0;
-//Monat
-int month = 0;
-//Jahr
-int year = 0;
 //Langer Zeitstempel
 char timeStamp[20] = "00:00:00 00.00.0000";
+
 //Uhrzeit als Text
 char timeString[9] = "00:00:00";
+
 //Datum als Text
 char dateString[11] = "00.00.0000";
 
-//Initialstatus der eingebauten LED
-int ledState = LOW;
+//------ LEDs
+
+//Startwert für Status LED
+int statusLedBrightness = 0;
+
+//Startwert für Aktivitäts-LED
+int actLedBrightness = 0;
+
+//Schrittweite für Helligkeitsveränderung
+int statusLedStep = 5;
+int actLedStep = 5;
+
+//Intervall bzw. Geschwindigkeit der LED Zyklen in ms
+int statusLedInterval = 10;
+int actLedInterval = 10;
+
+//Timer für LEDs
+
+//Status LED
+unsigned long statusLedMillis = 0L;
+
+//ACT LED
+unsigned long actLedMillis = 0L;
+
+//Manual Flags
+bool statusLedManual = false;
+bool actLedManual = false;
+
+
+//-----------------------------
 
 //Displayhelligkeit
 
@@ -153,10 +166,3 @@ const int MAX_LM_LIGHT_LEVEL = 80;
 const int MIN_DISPLAY_BRIGHTNESS = 50;
 //Maximaler Steuerwert für Displayhelligkeit
 const int MAX_DISPLAY_BRIGHTNESS = 255;
-
-
-//PWM
-//Minimaler Zyklus
-const int MIN_FAN_DUTY = 0;
-//Maximaler Zyklus
-const int MAX_FAN_DUTY = 20000;

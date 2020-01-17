@@ -1,3 +1,4 @@
+#pragma once
 /*
   Karosserie-Canbus Variablen und Settings
 */
