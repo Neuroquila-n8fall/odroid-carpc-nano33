@@ -1,15 +1,3 @@
-#pragma once
-/*
-  Karosserie-Canbus Variablen und Settings
-*/
-
-/*
-  Konstanten / Settings
-*/
-
-/*
-  Konstanten für CAN-Protokoll
-*/
 //Timeout für CAN-Bus
 const int CAN_TIMEOUT = 30000;
 

@@ -1,5 +1,108 @@
 #pragma once
 #include <Arduino.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
+#include <SPI.h>
+#include <mcp_can.h>
+#include <BPLib.h>
+
+#include <Adafruit_INA219.h>
+
+#include <SeeedOLED.h>
+
+#include <WiFiNINA.h>
+#include <WiFiUdp.h>
+#include "arduino_secrets.h"
+#include <ArduinoBLE.h>
+#include <RTCZero.h>
+
+/* ----------------- PWM, FAN */
+
+//Maximaler dutycycle also frequenz. 1919 entspricht 100%DC @ 25kHz
+const int MAX_FANDUTY = 5000;
+
+//Minimaler cycle.
+const int MIN_FANDUTY = 0;
+
+//PWM Setup
+void setupPWM();
+//Set Duty Cycle
+void setFanDutyCycle(int pcCycle);
+
+/* ----------------- OLED */
+//Initialize the display.
+void setupOled();
+
+/* ---------------- RTC, Connectivity */
+//Sets up and connects wifi according to the constants defined in "arduino_secrets.h" as "SECRET_SSID" and "SECRET_PASS"
+//This function throttles itself so it only tries to connect after a certain delay defined in "connect_delay"
+void setupWifi();
+//Setup UDP Connectivity
+void setupUDP();
+//Connects to a NTP server via UDP and retrieves the current time.
+void updateTime();
+//RTC Init
+void setupRTC();
+//Timestamp builder
+void buildtimeStamp();
+//Send NTP Packet
+unsigned long sendNTPpacket(IPAddress& address);
+
+// local port to listen for UDP packets
+unsigned int localPort = 2390;
+// de.pool.ntp.org NTP server 88.198.17.248
+IPAddress timeServer(88, 198, 17, 248);
+// NTP time stamp is in the first 48 bytes of the message
+const int NTP_PACKET_SIZE = 48;
+//buffer to hold incoming and outgoing packets
+byte packetBuffer[NTP_PACKET_SIZE];
+// A UDP instance to let us send and receive packets over UDP
+WiFiUDP Udp;
+
+//Stores the result of a connection attempt.
+int wifiStatus = WL_IDLE_STATUS;
+//Seconds of delay between retry attempts
+const int connect_delay = 10;
+//Timer
+unsigned long previousConnectionAttempt = 0;
+
+//RTC
+RTCZero rtc; 
+
+/* -------------------- Voltage Monitoring */
+Adafruit_INA219 ina219;
+//Establish connection with the INA219 chip and initialize it
+void setupIna();
+//Retrieves all the data and fills it into the variables:
+//float shuntvoltage = Reads the voltage between V- and V+. This is the measured voltage drop across the shunt resistor.
+//float busvoltage = Reads the voltage between GND and V-. This is the total voltage seen by the circuit under test. (Supply voltage -shunt voltage).
+//float Reads the current, derived via Ohms Law from the measured shunt voltage
+//float loadvoltage = bus voltage while also taking into account the shunt voltage
+//float power_mW = power
+void checkIna();
+
+float shuntvoltage = 0;
+float busvoltage = 0;
+float current_mA = 0;
+float loadvoltage = 0;
+float power_mW = 0;
+
+/* Temperature */
+const int ONE_WIRE_BUS = A0;    //DATA PORT DALLAS 18B50
+const int TEMP_RESOLUTION = 11; //TEMPERATURE RESOLUTION
+
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire);
+DeviceAddress firstDeviceAddress;
+
+float temperature = 0.0;
+float rawtemp = 0.0;
+
+//Setup sensors
+void setupTemperatureSensors();
+//retrieve the current temperature of sensor
+float checkTemperature();
+
 /*------------- Functions -------------*/
 //Status der Zündung abrufen und entsprechende Aktionen auslösen
 void checkIgnitionState();
@@ -56,6 +159,8 @@ const int TEMP_SENSOR = A0;
 //const int CAN_INT = A1; //A1 = INT2
 
 /*------------- Fields / Vars -------------*/
+
+
 //Zeitstempel für Sekundentimer
 unsigned long previousOneSecondTick = 0;
 
@@ -88,6 +193,8 @@ int lastIgnitionState = HIGH; //Hält den letzten Zündungsstatus
 
 const int CYCLE_DELAY = 500; //Verzögerung in ms pro Schleifendurchlauf
 
+int canModuleStatus = 1; //Zustand des CAN Moduls
+
 unsigned long previousOdroidActionTime = 0;  //Vorherige Zeitmessung für Odroid Steuerung
 unsigned long previousMainTaskTime = 0;      //Vorherige Zeitmessung für allgemeinen Timer
 unsigned long previousIgnitionCheckTime = 0; //Vorherige Zeitmessung für Zündungsstatus
@@ -116,6 +223,10 @@ const int serialBaud = 115200;
 //zuletzt errechneter Helligkeitswert für Display.
 int lastBrightness = 0;
 
+//Timer für RTC
+unsigned long previousRtcUpdateMillis = 0UL;
+unsigned long rtcAndWifiUpdateInterval = 60000UL;
+
 //Langer Zeitstempel
 char timeStamp[20] = "00:00:00 00.00.0000";
 
@@ -134,12 +245,12 @@ int statusLedBrightness = 0;
 int actLedBrightness = 0;
 
 //Schrittweite für Helligkeitsveränderung
-int statusLedStep = 5;
+int statusLedStep = 10;
 int actLedStep = 5;
 
 //Intervall bzw. Geschwindigkeit der LED Zyklen in ms
-int statusLedInterval = 10;
-int actLedInterval = 10;
+unsigned long statusLedInterval = 10UL;
+unsigned long actLedInterval = 10UL;
 
 //Timer für LEDs
 
@@ -153,6 +264,8 @@ unsigned long actLedMillis = 0L;
 bool statusLedManual = false;
 bool actLedManual = false;
 
+//Fans
+int dynamicDuty = MAX_FANDUTY;
 
 //-----------------------------
 
@@ -166,3 +279,30 @@ const int MAX_LM_LIGHT_LEVEL = 80;
 const int MIN_DISPLAY_BRIGHTNESS = 50;
 //Maximaler Steuerwert für Displayhelligkeit
 const int MAX_DISPLAY_BRIGHTNESS = 255;
+
+//---------- CAN
+
+//CAN Modul verbinden
+MCP_CAN CAN(SPI_CS_PIN);
+//CAN Modul initialisieren
+void setupCan();
+//CAN Nachrichten prüfen und abarbeiten
+void checkCan();
+
+//CAN Nachrichten auf der Konsole ausgeben
+void printCanMsg(int canId, unsigned char *buffer, int len);
+//CAN Output als CSV
+void printCanMsgCsv(int canId, unsigned char *buffer, int len);
+
+
+//------------ BT
+
+
+//BT Library
+BPLib *BPMod;
+
+//Initializes the bluetooth module
+void setupBluetooth(Uart serial, int serialBaud);
+
+//Initial Setup of a brand new module
+void initalSetup();
