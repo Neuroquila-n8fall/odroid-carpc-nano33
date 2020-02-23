@@ -68,7 +68,8 @@ Parameters are described inside the source file "main.h" (https://github.com/Neu
 Everything is well tested and works right out of the box. The prototype is already reaching one year of service on my car and shares the same code base.
 
 ### I2C
-There are two solder pads on the bottom to be bridged when you want to establish I2C communication between the Odroid N2 and the Arduino. This will join the N2 to the Arduino I2C bus. Important: The Arduino is the bus master!
+There are two solder pads "SCL-N" and "SDA-N" on the bottom to be bridged when you want to establish I2C communication between the Odroid N2 and the Arduino. This will join the N2 to the Arduino I2C bus. Important: The Arduino is the bus master!
+![Alt Text](https://github.com/Neuroquila-n8fall/odroid-carpc-nano33/blob/master/EagleFiles/3d-sketch-bottom.png?raw=true)
 
 ### First-Run
 #### Bluetooth Module Setup
