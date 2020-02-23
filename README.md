@@ -67,6 +67,9 @@ You'll find a Terminal for the following auxillary devices:
 Parameters are described inside the source file "main.h" (https://github.com/Neuroquila-n8fall/odroid-carpc-nano33/blob/master/src/main.h)
 Everything is well tested and works right out of the box. The prototype is already reaching one year of service on my car and shares the same code base.
 
+### I2C
+There are two solder pads on the bottom to be bridged when you want to establish I2C communication between the Odroid N2 and the Arduino. This will join the N2 to the Arduino I2C bus. Important: The Arduino is the bus master!
+
 ### First-Run
 #### Bluetooth Module Setup
 Before uploading the sketch to the Arduino, you should head over to the setup section and uncomment the line "initalSetup()". The, head ofer to the function and customize the name of the device and PIN. This will then set the required settings on the next startup of the Arduino on the bluetooth module so it works as intended. You may also use a Serial redirection sketch to enter the commands yourself or tweak things.
