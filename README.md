@@ -73,7 +73,7 @@ There are two solder pads "SCL-N" and "SDA-N" on the bottom to be bridged when y
 
 ### First-Run
 #### Bluetooth Module Setup
-Before uploading the sketch to the Arduino, you should head over to the setup section and uncomment the line "initalSetup()". The, head ofer to the function and customize the name of the device and PIN. This will then set the required settings on the next startup of the Arduino on the bluetooth module so it works as intended. You may also use a Serial redirection sketch to enter the commands yourself or tweak things.
+Before uploading the sketch to the Arduino, you should head over to the setup section and uncomment the line "initalSetup()". Then, head over to the function and customize the name of the device and PIN. This will then set the required settings on the next startup of the Arduino on the bluetooth module so it works as intended. You may also use a Serial redirection sketch to enter the commands yourself or tweak things.
 After that you should comment the section again and re-upload the sketch.
 
 ## Functions & Behaviour
