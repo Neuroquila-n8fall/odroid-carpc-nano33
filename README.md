@@ -111,6 +111,17 @@ Native support is integrated which means you can skip music tracks with the arro
 ### Display Brightness Adjustment
 The controller fetches messages from the CAN network from the RLS module (Regen Licht Sensorik) which sits, if fitted, on the windscreen behind the rearview mirror. It then maps those values to control the screen brightness of the VU7a display. The control values are proven but may vary between cars.
 
+## Signalling & Diagnosis
+There are plenty of status led on the board:
+- One for the battery rail which indicates that the battery is connected
+- One for the 12v rail to indicate a working power supply input
+- One for the ignition rail so you know if the ignition input works
+- One for the 3v3 and 5v rails 
+- 2 for the bluetooth module: BTACT = Activity: Tells you what the module is doing, BTSTA = Status: Off when a device is connected
+- 2 for the Arduino: STA tells you if the PC is running, ACT tells you if there is activity on the CAN-Bus and pulses when nothing is going on
+- One for the fans: On if the relay is opened and fans are enabled
+- There is also an optional OLED Grove connector. Because of timing issues I removed it from the project but it can be used as a diagnostical device if needed. Since 5v and I2C is supplied there, you can hook up other stuff to this port.
+
 ## Known Issues
 - As soon as the car battery is depleted, the arduino will write value 0 to the display brightness pin when the engine starts or doors are fully opened and closed. I have yet to understand why on earth this is happening even when the engine is already running. I can only think of a solution where the brightness is updated frequently, like 10 seconds or so.
 - When the car is not shut and goes into hibernation and the car pc is still running, it might happen that the display goes dark. This might also be related to the aforementioned problem and may point to an integer overflow issue on the brightness calculation. Maybe the sensor on the windshield (RLS Control Module) sends some crazy data when it goes into hibernation.
