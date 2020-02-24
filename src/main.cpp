@@ -39,7 +39,7 @@ void setup()
     setupIna();
     setupBluetooth(Serial1, serialBaud);
     //First-Time use only
-    //initalSetup();
+    initalSetup();
 
     //Lüfter einschalten
     digitalWrite(PIN_FAN_RELAY, HIGH);
@@ -471,21 +471,26 @@ void setupBluetooth(Uart serial, int serialBaud)
 void initalSetup()
 {
     //Command Reference: https://cdn.sparkfun.com/datasheets/Wireless/Bluetooth/bluetooth_cr_UG-v1.0r.pdf
-    Serial1.write("$$$");
+    Serial1.write("$$$\r\n");
     //Wait for device response
-    delay(250);
+    delay(1000);
     //Set as a Combo device
-    Serial1.write("SH,0230");
+    Serial1.write("SH,0230\r\n");
+    delay(1000);
     //Enable HID Profile
-    Serial1.write("S~,6");
+    Serial1.write("S~,6\r\n");
+    delay(1000);
     //Set PIN Mode
-    Serial1.write("SA,4");
+    Serial1.write("SA,4\r\n");
+    delay(1000);
     //Set PIN
-    Serial1.write("SP,1234");
+    Serial1.write("SP,1234\r\n");
+    delay(1000);
     //Set device name
-    Serial1.write("SN,IDRIVECTRL");
+    Serial1.write("SN,IDRIVECTRL\r\n");
+    delay(1000);
     //End
-    Serial1.write("---");
+    Serial1.write("---\r\n");
 }
 #pragma endregion
 
