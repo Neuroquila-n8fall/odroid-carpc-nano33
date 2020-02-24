@@ -28,7 +28,7 @@ Because of the internal wiring of the Arduino, even the Fans will work when the 
 When selecting parts I've focused to select hose which are either AECQ100 certified or have an extended operating temperature range until at least 85°C. You should select parts for automotive use to ensure they last as long as possible.
 
 ### Fan sockets
-The PWM signal is tuned to work with all fans. I've tested bog standard 120mm fans as well as a dual high-pressure cisco switch fan. Please note that the socket delivers the voltage from the 12V rail. Tehre is no possibility to power 5V fans here.
+The PWM signal is tuned to work with all fans. I've tested bog standard 120mm fans as well as a dual high-pressure cisco switch fan. Please note that the socket delivers the voltage from the 12V rail. There is no possibility to power 5V fans here.
 
 ## 3rd Party Libraries used
 I'm using a modified version of the BPLib that now supports sending and holding multiple keys. That's probably important for future tweaks. The original library only supports sending one single key and modifiers.
@@ -48,7 +48,7 @@ This new revision has everything on board which makes wiring very easy. It also 
 ![Alt Text](https://github.com/Neuroquila-n8fall/odroid-carpc-nano33/blob/master/EagleFiles/CarPC-CC-Rev3_Wiring.png)
 All of the terminals have a Description on the bottom which usually is hidden by the terminal itself. That's why a more descriptive text is added to the top.
 You'll find a Terminal for the following auxillary devices:
-- Display (VU7A+): One Output for controlling the background lighting nd one for triggering he power button
+- Display (VU7A+): One Output for controlling the background lighting and one for triggering the power button
 - CAN-Bus: You can hook up your K-Can to the screw terminal or the pin headers behind.
 - PC: This is the output for the Odroid. It receives power directly from the 12V terminal
 - 12V: Power supply input from an external regulated power supply. I heavily recommend a supply board with the LTC3780 chip.
