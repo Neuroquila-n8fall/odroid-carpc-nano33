@@ -3,7 +3,7 @@
 <eagle version="9.5.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="yes"/>
+<setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
 <grid distance="12.5" unitdist="mil" unit="mm" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
@@ -174,7 +174,7 @@
 <layer number="255" name="Accent" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
-<fusionsync huburn="a.YnVzaW5lc3M6Z29vZ2xlbWFpbDM5NzQ" projecturn="a.YnVzaW5lc3M6Z29vZ2xlbWFpbDM5NzQjRDIwMjAwMjA2MjYyODQ5OTA2" f3durn="urn:adsk.wipprod:dm.lineage:IggFrhZtQ_a1feRvvqs7Pg" pcbguid="bf3eb248-23ff-493d-88a3-1bcde9847c90" lastpulledtime="" lastsyncedchangeguid="898adb16-6d4d-edbb-685e-6e754855c02e"/>
+<fusionsync huburn="a.YnVzaW5lc3M6Z29vZ2xlbWFpbDM5NzQ" projecturn="a.YnVzaW5lc3M6Z29vZ2xlbWFpbDM5NzQjRDIwMjAwMjA2MjYyODQ5OTA2" f3durn="urn:adsk.wipprod:dm.lineage:80bHzjXET0ueI-K0PMmWLg" pcbguid="6e002f67-a89e-4d15-bfc3-ee707e087338" lastpulledtime="" lastsyncedchangeguid="95f337ff-36ca-174e-4e19-b75f39ef2b8f"/>
 <fusionteam huburn="a.YnVzaW5lc3M6Z29vZ2xlbWFpbDM5NzQ" projecturn="a.YnVzaW5lc3M6Z29vZ2xlbWFpbDM5NzQjRDIwMjAwMjA2MjYyODQ5OTA2" folderUrn="urn:adsk.wipprod:fs.folder:co.GUaS0R9CR3qfWpvkudDapg" urn="urn:adsk.wipprod:dm.lineage:FOIr01fbTJunwoKxbafz_w"  versionUrn="urn:adsk.wipprod:fs.file:vf.FOIr01fbTJunwoKxbafz_w?version=3" camFileUrn="" camFileVersionUrn="" lastpublishedchangeguid="8b2acdfd-6c5f-7b93-8b8e-7720c5fae449"/>
 <plain>
 <wire x1="0" y1="20.0025" x2="75.5" y2="20.0025" width="0" layer="20"/>
@@ -2990,10 +2990,11 @@ design rules under a new name.</description>
 </signal>
 <signal name="+3V3-ODROID">
 <contactref element="R1" pad="1"/>
-<contactref element="JP-N2" pad="1"/>
-<wire x1="61.75" y1="96.75" x2="64.75" y2="96.75" width="0.5" layer="16"/>
 <wire x1="64.75" y1="96.75" x2="64.77" y2="96.672" width="0.5" layer="16"/>
-<wire x1="61.75" y1="96.75" x2="61.595" y2="96.52" width="0.5" layer="16"/>
+<contactref element="JP-N2" pad="2"/>
+<wire x1="62" y1="94" x2="64.5" y2="96.5" width="0.5" layer="16"/>
+<wire x1="64.5" y1="96.5" x2="64.77" y2="96.672" width="0.5" layer="16"/>
+<wire x1="62" y1="94" x2="61.595" y2="93.98" width="0.5" layer="16"/>
 </signal>
 <signal name="ODROID-PWR-SENS" class="7">
 <contactref element="NANO_33_IOT" pad="D7"/>

@@ -13524,10 +13524,10 @@ Source: www.kingbright.com</description>
 <junction x="-132.08" y="121.92" grouprefs="EXT-PWR-SENSE"/>
 </segment>
 <segment>
-<pinref part="JP-N2" gate="G$1" pin="1"/>
-<wire x1="-137.16" y1="233.68" x2="-111.76" y2="233.68" width="0.1524" layer="91" grouprefs="ODROID-N2-HEADER"/>
-<label x="-134.62" y="233.68" size="1.778" layer="95" grouprefs="ODROID-N2-HEADER"/>
-<junction x="-137.16" y="233.68" grouprefs="ODROID-N2-HEADER"/>
+<pinref part="JP-N2" gate="G$1" pin="2"/>
+<wire x1="-88.9" y1="233.68" x2="-68.58" y2="233.68" width="0.1524" layer="91"/>
+<label x="-86.36" y="233.68" size="1.778" layer="95"/>
+<junction x="-68.58" y="233.68"/>
 </segment>
 </net>
 <net name="ODROID-PWR-SENS" class="7">
