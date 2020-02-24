@@ -123,8 +123,13 @@ There are plenty of status led on the board:
 - There is also an optional OLED Grove connector. Because of timing issues I removed it from the project but it can be used as a diagnostical device if needed. Since 5v and I2C is supplied there, you can hook up other stuff to this port.
 
 ## Known Issues
-- As soon as the car battery is depleted, the arduino will write value 0 to the display brightness pin when the engine starts or doors are fully opened and closed. I have yet to understand why on earth this is happening even when the engine is already running. I can only think of a solution where the brightness is updated frequently, like 10 seconds or so.
-- When the car is not shut and goes into hibernation and the car pc is still running, it might happen that the display goes dark. This might also be related to the aforementioned problem and may point to an integer overflow issue on the brightness calculation. Maybe the sensor on the windshield (RLS Control Module) sends some crazy data when it goes into hibernation.
+- ~~As soon as the car battery is depleted, the arduino will write value 0 to the display brightness pin when the engine starts or doors are fully opened and closed. I have yet to understand why on earth this is happening even when the engine is already running. I can only think of a solution where the brightness is updated frequently, like 10 seconds or so.~~
+
+**Solved: Explicit correction of values that are out of range. When the car has recovered from a very low voltage level, the light sensor reports values that are not mapped correctly by the "map" function. Such values are now being overwritten**
+- ~~When the car is not shut and goes into hibernation and the car pc is still running, it might happen that the display goes dark. This might also be related to the aforementioned problem and may point to an integer overflow issue on the brightness calculation. Maybe the sensor on the windshield (RLS Control Module) sends some crazy data when it goes into hibernation.~~
+
+**Solved: Same issue and solution as above**
+
 - Sometimes the "restart" feature of the queuing mechanism doesn't work. Odroid will then start after the ignition is on.
 
 ## Questions I got asked...
