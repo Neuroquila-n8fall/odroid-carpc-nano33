@@ -37,9 +37,10 @@ void setup()
 
     
     setupIna();
-    setupBluetooth(Serial1, serialBaud);
     //First-Time use only
-    initalSetup();
+    //initalSetup();
+    setupBluetooth(Serial1, serialBaud);
+
 
     //Lüfter einschalten
     digitalWrite(PIN_FAN_RELAY, HIGH);
@@ -177,7 +178,6 @@ void loop()
     //Zeit alle 60 Sekunden aktualisieren bzw. Wifi Verbindung aufbauen. Da das blockieren kann, wird das nur ausgeführt, wenn keine Aktion gerade ansteht
     if (currentMillis - previousRtcUpdateMillis >= 60000 && !anyPendingActions)
     {
-
         previousRtcUpdateMillis = currentMillis;
         Serial.println("[WiFi] Verbindung checken");
         setupWifi();
@@ -481,13 +481,19 @@ void initalSetup()
     Serial1.write("S~,6\r\n");
     delay(1000);
     //Set PIN Mode
-    Serial1.write("SA,4\r\n");
-    delay(1000);
-    //Set PIN
-    Serial1.write("SP,1234\r\n");
+    Serial1.write("SA,1\r\n");
     delay(1000);
     //Set device name
     Serial1.write("SN,IDRIVECTRL\r\n");
+    delay(1000);
+    //Clear any addresses
+    //SR,Z
+    //Store MAC Address
+    //SR,001A7DDA7113
+    //Bond to the Address
+    //SX,1
+    //Set Auto Reconnect Mode without pulling a GPIO
+    Serial1.print("SM,5\r\n");
     delay(1000);
     //End
     Serial1.write("---\r\n");
