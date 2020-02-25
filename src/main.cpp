@@ -792,6 +792,7 @@ void checkCan()
 
             //letzten Wert zum Vergleich speichern
             lastBrightness = val;
+            Serial.println("Display Helligkeit: " + val);
             break;
         }
         //Licht-, Solar- und Innenraumtemperatursensoren
