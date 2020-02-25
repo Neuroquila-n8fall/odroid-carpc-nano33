@@ -134,15 +134,13 @@ const int PIN_IGNITION_INPUT = 6;
 //Eingang Odroid Power Button. Wenn dieser HIGH ist, ist der Odroid aktiv.
 const int PIN_ODROID_POWER_INPUT = 7;
 //Ausgang Odroid Power Button
-const int PIN_ODROID_POWER_BUTTON = 9;
+const int PIN_ODROID_POWER_BUTTON = A1;
 //Power Button vom Display
-const int PIN_ODROID_DISPLAY_POWER_BUTTON = 8;
+const int PIN_ODROID_DISPLAY_POWER_BUTTON = A7;
 //CAN CS Pin
 const int SPI_CS_PIN = 10;
 //Pin für Display Helligkeit
 const int PIN_VU7A_BRIGHTNESS = 5;
-//Pin für Debug Switch
-const int PIN_DEBUG = 4;
 //PWM Pin #1
 const int PWM_PIN_1 = 2;
 //PWM Pin #2

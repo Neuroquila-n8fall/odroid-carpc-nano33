@@ -18,15 +18,11 @@ void setup()
     pinMode(PIN_ODROID_POWER_BUTTON, OUTPUT);         //Opto 2 - Odroid Power Button
     pinMode(PIN_ODROID_POWER_INPUT, INPUT_PULLUP);    //Odroid VOUT Pin als Rückmeldung ob der PC eingeschaltet ist
     pinMode(PIN_ODROID_DISPLAY_POWER_BUTTON, OUTPUT); //Opto 3 - Display Power Button
+    digitalWrite(PIN_ODROID_POWER_BUTTON,HIGH);       //Ausgeschaltet lassen
     pinMode(STATUS_LED, OUTPUT);                      //Status LED
     pinMode(ACT_LED, OUTPUT);                         //Activity LED
-    pinMode(PIN_DEBUG, INPUT_PULLUP);                 //Debug Switch Pin
     pinMode(PIN_VU7A_BRIGHTNESS, OUTPUT);             //Display Helligkeitssteuerung
     pinMode(PIN_FAN_RELAY, OUTPUT);                   //Lüfter Relais
-    pinMode(LED_BUILTIN, OUTPUT);
-    pinMode(A7, OUTPUT);
-
-    analogWrite(A7, 255);
     
     Serial.println("[setup] Startup");
 
@@ -90,7 +86,7 @@ void loop()
             //Zeit merken
             previousOdroidActionTime = currentMillis;
             //Ausgang freigeben
-            digitalWrite(PIN_ODROID_POWER_BUTTON, LOW);
+            digitalWrite(PIN_ODROID_POWER_BUTTON, HIGH);
             Serial.println("[odroidStartRequested] Start erfolgt.");
             //Aktuellen Counter merken. Ausführung weiterer Aktionen wird pausiert, bis abgewartet wurde.
             startPowerTransitionMillis = millis();
@@ -105,7 +101,7 @@ void loop()
             //Zeit merken
             previousOdroidActionTime = currentMillis;
             //Ausgang freigeben
-            digitalWrite(PIN_ODROID_POWER_BUTTON, LOW);
+            digitalWrite(PIN_ODROID_POWER_BUTTON, HIGH);
             Serial.println("[odroidShutdownRequested] Stop erfolgt.");
             //Aktuellen Counter merken. Ausführung weiterer Aktionen wird pausiert, bis abgewartet wurde.
             startPowerTransitionMillis = millis();
@@ -132,6 +128,7 @@ void loop()
     if (currentMillis - previousOneSecondTick >= 1000)
     {
         previousOneSecondTick = currentMillis;
+
         //Zeitstempel Variablen füllen
         buildtimeStamp();
         //Lüfter steuern
@@ -304,9 +301,6 @@ void checkPins()
     //Staus Odroid Vcc pin
     odroidRunning = !digitalRead(PIN_ODROID_POWER_INPUT);
 
-    //Status Debug-Pin
-    debugMode = !digitalRead(PIN_DEBUG);
-
     //Prüfe alle Faktoren für Start, Stopp oder Pause des Odroid.
     checkIgnitionState();
 }
@@ -343,7 +337,7 @@ void startOdroid()
     //Starten
     odroidStartRequested = true;
     pendingAction = ODROID_START;
-    digitalWrite(PIN_ODROID_POWER_BUTTON, HIGH);
+    digitalWrite(PIN_ODROID_POWER_BUTTON, LOW);
     //Zeitstempel
     Serial.print(timeStamp + '\t');
     Serial.println("[startOdroid] Start angefordert.");
@@ -360,12 +354,12 @@ void pauseOdroid()
     }
     pendingAction = ODROID_STANDBY;
     digitalWrite(PIN_ODROID_DISPLAY_POWER_BUTTON, HIGH);
-    digitalWrite(PIN_ODROID_POWER_BUTTON, HIGH);
+    digitalWrite(PIN_ODROID_POWER_BUTTON, LOW);
     Serial.println("[pauseOdroid] Stand-By angefordert");
     //Kurze Verzögerung - kurzer Tastendruck für display und Odroid
     delay(ODROID_STANDBY_HOLD_DELAY);
     digitalWrite(PIN_ODROID_DISPLAY_POWER_BUTTON, LOW);
-    digitalWrite(PIN_ODROID_POWER_BUTTON, LOW);
+    digitalWrite(PIN_ODROID_POWER_BUTTON, HIGH);
     odroidPauseRequested = true;
     previousOdroidPauseTime = millis();
 }
@@ -386,7 +380,7 @@ void stopOdroid()
     odroidShutdownRequested = true;
     pendingAction = ODROID_STOP;
 
-    digitalWrite(PIN_ODROID_POWER_BUTTON, HIGH);
+    digitalWrite(PIN_ODROID_POWER_BUTTON, LOW);
     Serial.println("[stopOdroid] Herunterfahren angefordert");
 
     previousOdroidActionTime = millis();
@@ -397,6 +391,7 @@ void readConsole()
     if (Serial.available() > 0)
     {
         String command = Serial.readStringUntil('\n');
+        command.trim();
         if (command == "pc.stop")
         {
             stopOdroid();
@@ -420,6 +415,16 @@ void readConsole()
         {
             debugMode = false;
         }
+        if(command == "screen.dark")
+        {
+            analogWrite(PIN_VU7A_BRIGHTNESS,0);
+        }
+        if(command == "screen.bright")
+        {
+            analogWrite(PIN_VU7A_BRIGHTNESS,255);
+        }
+        Serial.println("COMMAND: " + command);
+
     }
 }
 
