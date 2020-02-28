@@ -26,7 +26,10 @@ Because of the internal wiring of the Arduino, even the Fans will work when the 
 
 ### Part selection
 When selecting parts I've focused to select hose which are either AECQ100 certified or have an extended operating temperature range until at least 85°C. You should select parts for automotive use to ensure they last as long as possible.
-
+```diff
+- ATTENTION: Contrary to the schematics and board, the TCMT1100 up to TCMT1102 optocouplers can be used.
+The TCMT1104 requires 10mA to trigger which the SAMD21 can't deliver. It's maximum current on a pin is 7mA
+```
 ### Fan sockets
 The PWM signal is tuned to work with all fans. I've tested bog standard 120mm fans as well as a dual high-pressure cisco switch fan. Please note that the socket delivers the voltage from the 12V rail. There is no possibility to power 5V fans here.
 
@@ -131,6 +134,8 @@ There are plenty of status led on the board:
 **Solved: Same issue and solution as above**
 
 - Sometimes the "restart" feature of the queuing mechanism doesn't work. Odroid will then start after the ignition is on.
+
+- Apparently setting the PWM clock to 25kHz in order to control PWM fans also affects the display brightness pin somehow. This is something I didn't see coming. Maybe another pin configuration is needed...
 
 ## Questions I got asked...
 Why all the hassle if I could just simply upgrade the car to the official iDrive?
