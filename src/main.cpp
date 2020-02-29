@@ -40,9 +40,6 @@ void setup()
 
     //Lüfter einschalten
     digitalWrite(PIN_FAN_RELAY, HIGH);
-    setupWifi();
-    setupUDP();
-    setupRTC();
     setupTemperatureSensors();
 
     //Display von ganz dunkel nach ganz Hell stellen. Quasi als Test
@@ -129,8 +126,6 @@ void loop()
     {
         previousOneSecondTick = currentMillis;
 
-        //Zeitstempel Variablen füllen
-        buildtimeStamp();
         //Lüfter steuern
         fanControl();
         //Spannung abrufen
@@ -138,10 +133,6 @@ void loop()
         //Display
         //feedDisplay();
         Serial.println("---------- Update ----------");
-        Serial.print("Uhrzeit: ");
-        Serial.println(timeString);
-        Serial.print("Datum: ");
-        Serial.println(dateString);
         Serial.print("Temperatur: ");
         Serial.print(temperature);
         Serial.println("°C");
@@ -170,16 +161,6 @@ void loop()
         default:
             break;
         }
-    }
-
-    //Zeit alle 60 Sekunden aktualisieren bzw. Wifi Verbindung aufbauen. Da das blockieren kann, wird das nur ausgeführt, wenn keine Aktion gerade ansteht
-    if (currentMillis - previousRtcUpdateMillis >= 60000 && !anyPendingActions)
-    {
-        previousRtcUpdateMillis = currentMillis;
-        Serial.println("[WiFi] Verbindung checken");
-        setupWifi();
-        Serial.println("[RTC] Zeit aktualisieren");
-        updateTime();
     }
 
     //Status-LED
@@ -1529,7 +1510,7 @@ void buildtimeStamp()
 #pragma region "Fan Control"
 void setupPWM()
 {
-  REG_GCLK_GENDIV = GCLK_GENDIV_DIV(1) |          // Divide the 48MHz clock source by divisor 3: 48MHz/3=16MHz
+  REG_GCLK_GENDIV = GCLK_GENDIV_DIV(1) |          // Divide the 48MHz clock source by divisor 1: 48MHz/1=48MHz
                     GCLK_GENDIV_ID(4);            // Select Generic Clock (GCLK) 4
   while (GCLK->STATUS.bit.SYNCBUSY);              // Wait for synchronization
 

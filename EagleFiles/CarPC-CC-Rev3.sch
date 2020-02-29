@@ -13613,10 +13613,10 @@ Source: www.kingbright.com</description>
 <pinref part="DISPLAY" gate="-2" pin="KL"/>
 </segment>
 <segment>
-<pinref part="NANO_33_IOT" gate="G$1" pin="D5"/>
-<label x="0" y="93.98" size="1.778" layer="95" rot="R90" grouprefs="ARDUINO_NANO_33_IOT"/>
-<wire x1="0" y1="91.44" x2="0" y2="116.84" width="0.1524" layer="91" grouprefs="ARDUINO_NANO_33_IOT"/>
-<junction x="0" y="116.84" grouprefs="ARDUINO_NANO_33_IOT"/>
+<wire x1="2.54" y1="48.26" x2="2.54" y2="20.32" width="0.1524" layer="91" grouprefs="ARDUINO_NANO_33_IOT"/>
+<pinref part="NANO_33_IOT" gate="G$1" pin="A3"/>
+<label x="2.54" y="22.86" size="1.778" layer="95" rot="R90" grouprefs="ARDUINO_NANO_33_IOT"/>
+<junction x="2.54" y="20.32" grouprefs="ARDUINO_NANO_33_IOT"/>
 </segment>
 </net>
 <net name="+3V3" class="7">
@@ -13728,15 +13728,15 @@ Source: www.kingbright.com</description>
 </net>
 <net name="LED-ACT" class="0">
 <segment>
-<wire x1="2.54" y1="48.26" x2="2.54" y2="20.32" width="0.1524" layer="91" grouprefs="ARDUINO_NANO_33_IOT"/>
-<pinref part="NANO_33_IOT" gate="G$1" pin="A3"/>
-<label x="2.54" y="22.86" size="1.778" layer="95" rot="R90" grouprefs="ARDUINO_NANO_33_IOT"/>
-<junction x="2.54" y="20.32" grouprefs="ARDUINO_NANO_33_IOT"/>
-</segment>
-<segment>
 <wire x1="220.98" y1="-17.78" x2="254" y2="-17.78" width="0.1524" layer="91" grouprefs="LED1"/>
 <label x="254" y="-15.24" size="1.778" layer="95" rot="R180" grouprefs="LED1"/>
 <pinref part="ACT" gate="G$1" pin="A"/>
+</segment>
+<segment>
+<pinref part="NANO_33_IOT" gate="G$1" pin="D5"/>
+<label x="0" y="93.98" size="1.778" layer="95" rot="R90" grouprefs="ARDUINO_NANO_33_IOT"/>
+<wire x1="0" y1="91.44" x2="0" y2="116.84" width="0.1524" layer="91" grouprefs="ARDUINO_NANO_33_IOT"/>
+<junction x="0" y="116.84" grouprefs="ARDUINO_NANO_33_IOT"/>
 </segment>
 </net>
 <net name="BT-TX0" class="0">

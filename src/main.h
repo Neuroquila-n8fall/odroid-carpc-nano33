@@ -8,8 +8,6 @@
 
 #include <Adafruit_INA219.h>
 
-#include <SeeedOLED.h>
-
 #include <WiFiNINA.h>
 #include <WiFiUdp.h>
 #include "arduino_secrets.h"
@@ -18,8 +16,8 @@
 
 /* ----------------- PWM, FAN */
 
-//Maximaler dutycycle also frequenz. 1919 entspricht 100%DC @ 25kHz
-const int MAX_FANDUTY = 5000;
+//Maximaler dutycycle also frequenz. 1920 entspricht 100%DC @ 25kHz, da 48.000.000 / 25.000 = 1920
+const int MAX_FANDUTY = 1920;
 
 //Minimaler cycle.
 const int MIN_FANDUTY = 0;
@@ -140,7 +138,7 @@ const int PIN_ODROID_DISPLAY_POWER_BUTTON = A7;
 //CAN CS Pin
 const int SPI_CS_PIN = 10;
 //Pin für Display Helligkeit
-const int PIN_VU7A_BRIGHTNESS = 5;
+const int PIN_VU7A_BRIGHTNESS = A3;
 //PWM Pin #1
 const int PWM_PIN_1 = 2;
 //PWM Pin #2
@@ -150,7 +148,7 @@ const int PIN_FAN_RELAY = A6;
 //Status LED
 const int STATUS_LED = A2;
 //Aktivitäts-LED
-const int ACT_LED = A3;
+const int ACT_LED = 5;
 //Temperatursensor
 const int TEMP_SENSOR = A0;
 //CAN Interrupt
